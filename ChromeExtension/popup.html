@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>impostor</title>
+		<script type="text/javascript" src="popup.js"></script>
+		<style>
+		.row {
+			display: flex;
+			flex-direction: row; 
+			justify-content: space-around;
+			align-items: center;
+		}
+</style>
+    </head>
+    <body>
+		<table>
+			<tr>
+				<td><div>
+					<div class="row">
+						<div>Domain</div> 
+						<input  id="InputDomain"     style="width:200px;height:40px" type="text" placeholder="example.com"> 
+						<button id="BtnDelBtnDomain" style="width:40px;height:40px">-</button> 
+						<button id="BtnAddBtnDomain" style="width:40px;height:40px">+</button>  
+					</div> 
+				</div></td>
+				<td><button id="BtnGetCookies" style="width:100px;height:67px">Get<br/>Cookies</button></td>  
+			</tr>               
+			<tr>
+				<td><textarea id="TextareaCookies" rows="4" cols="54" placeholder="
+  Type interesting domain above and get cookies here,
+     Or paste cookies here and apply the cookies"></textarea> 
+				</td> 
+				<td><button id="BtnApplyCookies" style="width:100px;height:67px">Apply<br/>Cookies</button></td>  
+			</tr> 
+		</table> 
+    </body>
+</html> 
