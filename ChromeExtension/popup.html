@@ -7,7 +7,7 @@
 		.row {
 			display: flex;
 			flex-direction: row; 
-			justify-content: space-around;
+			justify-content: space-between;
 			align-items: center;
 		}
 </style>
@@ -15,15 +15,14 @@
     <body>
 		<table>
 			<tr>
-				<td><div>
+				<td>
 					<div class="row">
 						<div>Domain</div> 
-						<input  id="InputDomain"     style="width:200px;height:40px" type="text" placeholder="example.com"> 
-						<button id="BtnDelBtnDomain" style="width:40px;height:40px">-</button> 
-						<button id="BtnAddBtnDomain" style="width:40px;height:40px">+</button>  
-					</div> 
-				</div></td>
-				<td><button id="BtnGetCookies" style="width:100px;height:67px">Get<br/>Cookies</button></td>  
+						<input  id="InputDomain"   style="width:250px;height:40px" type="text" placeholder="example.com">
+						<button id="BtnGetCookies" style="width:100px;height:67px">Get<br/>Cookies</button>
+					</div>
+				</td>
+				<td><button id="BtnSaveCookies" style="width:100px;height:67px">Save<br/>Cookies</button></td>  
 			</tr>               
 			<tr>
 				<td><textarea id="TextareaCookies" rows="4" cols="54" placeholder="

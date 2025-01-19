@@ -44,5 +44,26 @@ document.addEventListener("DOMContentLoaded", async function () {
 		});   
 	};
 
+	document.getElementById('BtnSaveCookies').onclick = function () {
+		const strCookies = document.getElementById('TextareaCookies').value;
+		if (!strCookies) return; // Don't download if empty 
+		var domain = document.getElementById('InputDomain').value;
+
+		// Create blob and download link
+		const blob = new Blob([strCookies], { type: 'application/json' });
+		const url  = URL.createObjectURL(blob); 
+		const a    = document.createElement('a');
+		a.href     = url;
+		a.download = domain + '.json';
+		document.body.appendChild(a);
+		
+		// Trigger download
+		a.click();
+		
+		// Cleanup
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	};
+
 });
 // domain/expirationDate/httpOnly/name/path/sameSite/secure/storeId/url/value  object.(propName)
