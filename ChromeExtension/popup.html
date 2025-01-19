@@ -4,13 +4,13 @@
         <title>impostor</title>
 		<script type="text/javascript" src="popup.js"></script>
 		<style>
-		.row {
-			display: flex;
-			flex-direction: row; 
-			justify-content: space-between;
-			align-items: center;
-		}
-</style>
+			.row {
+				display: flex;
+				flex-direction: row; 
+				justify-content: space-around;
+				align-items: center;
+			}
+		</style>
     </head>
     <body>
 		<table>
@@ -18,18 +18,18 @@
 				<td>
 					<div class="row">
 						<div>Domain</div> 
-						<input  id="InputDomain"   style="width:250px;height:40px" type="text" placeholder="example.com">
-						<button id="BtnGetCookies" style="width:100px;height:67px">Get<br/>Cookies</button>
+						<input  id="InputDomain"   style="width:350px;height:40px" type="text" placeholder="example.com"> 
 					</div>
 				</td>
-				<td><button id="BtnSaveCookies" style="width:100px;height:67px">Save<br/>Cookies</button></td>  
+				<td><button id="BtnGetCookies" style="width:100px;height:65px">Get<br/>Cookies</button></td>  
 			</tr>               
 			<tr>
-				<td><textarea id="TextareaCookies" rows="4" cols="54" placeholder="
+				<td class="row">
+					<textarea id="TextareaCookies" rows="4" cols="54" placeholder="
   Type interesting domain above and get cookies here,
      Or paste cookies here and apply the cookies"></textarea> 
-				</td> 
-				<td><button id="BtnApplyCookies" style="width:100px;height:67px">Apply<br/>Cookies</button></td>  
+				</td>
+				<td><button id="BtnLoadCookies" style="width:100px;height:65px" value="load">Load<br/>Cookies</button></td>  
 			</tr> 
 		</table> 
     </body>

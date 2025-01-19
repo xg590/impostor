@@ -2,15 +2,27 @@
 * I want my friend to use my ChatGPT account but I do not have a password (I use OAuth2) to share, so I made this extension to share my openai account's access tokens in the cookies.  
 * Mechanism
   1. Get cookies that matche a specified domain (chatgpt.com).
-  2. Export cookies as text or save it as json file locally.
-  3. Import cookies from text on another machine.
+  2. Export cookies as text or save it as json file (chatgpt.com.json) so I can email it.
+  2. Import cookies from text or file (chatgpt.com.json) on my friend's machine. 
 * Usage
-  * Open the extension in webpage "https://chatgpt.com/", where I have logged into my ChatGPT account.
-  <img src="misc/usage_1.png"></img>
-  * Then click the button "Get Cookies" related to "chatgpt.com" 
-  <img src="misc/usage_2.png"></img>
-  * Email Cookies in plain text to my friend.
-  * Ask my friend to open the extension in his machine, copy and apply the "Cookies" then he can open "https://chatgpt.com/" without login. 
+  1. Get cookies on my machine and save them
+      1. Open the extension in webpage "https://chatgpt.com/", where I have logged into my ChatGPT account.<br>
+      If I open the extension in another webpage, I simply input "chatgpt.com" in the domain box
+      <img src="misc/get.png"></img><br>
+      2. Press the Get Cookies button and voilà, I get matched cookies in the textarea.<br>
+      <img src="misc/save.png"></img>
+      3. Copy the cookies text or Press the Save Cookies button (, then chatgpt.com.json file is downloaded).<br>
+      4. Email Cookies in plain text to my friend.
+  2. Paste cookies on my friend's machine and apply them
+      1. Open the extension anywhere<br>
+      <img src="misc/get.png"></img>
+      2. Paste cookies in the textarea.<br>
+      <img src="misc/apply.png"></img>
+      3. Apply the cookies
+  3. Load cookies (from chatgpt.com.json) on my friend's machine and apply them
+      1. Open the extension anywhere<br>
+      <img src="misc/get.png"></img>
+      2. Press the Load Cookies button and open chatgpt.com.json on my friend's machine. Then cookies are loaded. 
 ### What is new? [For yt-dlp user]
 * Got the error "ERROR: [youtube] xxxxxxx: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies"? It is because you need cookies for domain ".youtube.com". (DO NOT omit the first dot)
   ```shell

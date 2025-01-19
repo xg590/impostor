@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 		} catch { ; }
 	}
 
+	// 2. Add event listener for textarea changes (paste cookies)
+	document.getElementById('TextareaCookies').addEventListener('input', function() {
+		document.getElementById('BtnLoadCookies').innerHTML = 'Apply<br/>Cookies';
+		document.getElementById('BtnLoadCookies').value     = 'apply';
+	});
+
+	// 3. Get cookies and save them
 	document.getElementById('BtnGetCookies').onclick = async function () {
 		var domain = document.getElementById('InputDomain').value; 
 		// https://developer.chrome.com/docs/extensions/reference/cookies/
@@ -27,27 +34,55 @@ document.addEventListener("DOMContentLoaded", async function () {
 			if (_cookie.hasOwnProperty('secure'        )) { cookie['secure'        ] = _cookie.secure; }  
 			arrCookies.push(cookie);
 		});  
-		document.getElementById('TextareaCookies').innerHTML=JSON.stringify(arrCookies).replaceAll("},", "},\n");
+		document.getElementById('TextareaCookies').innerHTML = JSON.stringify(arrCookies).replaceAll("},", "},\n");
+		document.getElementById('BtnLoadCookies' ).innerHTML = 'Save<br/>Cookies';
+		document.getElementById('BtnLoadCookies' ).value     = 'save';
+		console.log('Cookies Got');
 	};
 
-	document.getElementById('BtnApplyCookies').onclick = function () {
-		// url and path must match with each other, or cookies is invalid. 
-		var strCookies = document.getElementById('TextareaCookies').value;
+	function applyCookies(strCookies) {
 		try {
-			var arrCookies = JSON.parse(strCookies);
+			const arrCookies = JSON.parse(strCookies); 
+			console.log('Cookies parsed');
+			// url and path must match with each other, or cookies is invalid. 
+			arrCookies.forEach(cookie => {
+				chrome.cookies.set(cookie, function (cookie){console.log(JSON.stringify(cookie))});
+			});
+			console.log('Cookies applied');
 		} catch (error) {
-			console.log('[Error]', error);
+			console.log('Cookies parsing error: ', error);
 			return;
-		} 
-		arrCookies.forEach(cookie => {
-			chrome.cookies.set(cookie, function (cookie){console.log(JSON.stringify(cookie))});
-		});   
-	};
+		}
+	}; 
 
-	document.getElementById('BtnSaveCookies').onclick = function () {
-		const strCookies = document.getElementById('TextareaCookies').value;
+	// 1. Load cookies from a file and apply them
+	async function loadCookies() {
+		return new Promise((resolve, reject) => {
+			const input = document.createElement('input');
+			input.type = 'file';
+
+			input.onchange = function (e) {
+				const reader = new FileReader();
+				const [file] = e.target.files;
+				
+				reader.onload = function(e) {
+					const strCookies = e.target.result;
+					resolve(strCookies);
+				};
+				
+				reader.onerror = reject;
+				reader.readAsText(file);
+			};
+			
+			document.body.appendChild(input);
+			input.click();
+			document.body.removeChild(input);
+		});
+	}
+
+	function saveCookies(strCookies) { // save cookies text in the textarea to a file
 		if (!strCookies) return; // Don't download if empty 
-		var domain = document.getElementById('InputDomain').value;
+		const domain = document.getElementById('InputDomain').value;
 
 		// Create blob and download link
 		const blob = new Blob([strCookies], { type: 'application/json' });
@@ -65,5 +100,20 @@ document.addEventListener("DOMContentLoaded", async function () {
 		URL.revokeObjectURL(url);
 	};
 
+	document.getElementById('BtnLoadCookies').onclick = async function applyLoadSaveCookies() {  
+		const value = document.getElementById('BtnLoadCookies').value;
+		if (value == 'load') { // default: load cookies from a file to textarea
+			const strCookies = await loadCookies(); // load 
+			applyCookies(strCookies);
+		} else if (value == 'apply') { // textarea is pasted with cookies so we apply them
+			const strCookies = document.getElementById('TextareaCookies').value;
+			applyCookies(strCookies);
+		} else if (value == 'save') { // textarea is filled with cookies so we save them
+			const strCookies = document.getElementById('TextareaCookies').value;
+			saveCookies(strCookies);
+		} else {
+			console.log('Invalid button value: ', value);
+		}
+		window.close();
+	};
 });
-// domain/expirationDate/httpOnly/name/path/sameSite/secure/storeId/url/value  object.(propName)
