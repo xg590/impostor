@@ -32,20 +32,42 @@
   * Click "Save Cookies" button
   * Convert the json format to Netscape format
   ```
-  import pandas as pd
+  cat << EOF | sudo tee /usr/local/bin/cookies.json2txt.py
+  #!/usr/bin/python3
+  import argparse, os, pandas as pd
+  parser = argparse.ArgumentParser(description='Rewrite cookies in Netscape format') 
+  parser.add_argument(
+      "--json-filename",
+      type=str,
+      default="youtube.com.json",
+      help=""
+  )
 
-  df = pd.read_json('youtube.com.json', dtype={'expirationDate':int}) 
+  fn_json = parser.parse_args().json_filename
+
+  fn, ext = os.path.splitext(fn_json)
+  fn_txt  = f'{fn}.txt'
+  if ext != '.json': raise
+  df = pd.read_json(fn_json, dtype={'expirationDate':int})
+  #####################################################################################
+  ### 'www.youtube.com' is not a valid domain for yt-dlp but '.www.youtube.com' is. ###
+  #####################################################################################
+  df['domain'] = df.apply(lambda x: x.domain if x.domain[0]=='.' else '.' + x.domain, axis=1) 
   df['True'] = 'TRUE'
   df['_secure'] = df.apply(lambda x: 'TRUE' if x.secure else 'FALSE', axis=1) 
   df = df[['domain', 'True', 'path', '_secure', 'expirationDate', 'name', 'value']]
-
+  
   txt  = '''# Netscape HTTP Cookie File
   # yt-dlp --cookies youtube.com.txt https://www.youtube.com/watch?v=UjpbQ1OWMPE
-
+  
   ''' + df.to_csv(header=False, index=False, sep='\t')
-  with open('youtube.com.txt', 'w') as fw: 
-      fw.write(txt)
-      print(txt)
+  with open(fn_txt, 'w') as fw: 
+      fw.write(txt) 
+  os.remove(fn_json)
+  EOF
+  
+  sudo chmod 755 /usr/local/bin/cookies.json2txt.py
+  cookies.json2txt.py --json-filename youtube.com.json
   ```
 * Result
   ```txt

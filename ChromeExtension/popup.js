@@ -22,18 +22,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 		const _arrCookies = await chrome.cookies.getAll({domain: domain});  
 		var arrCookies = [];
 		_arrCookies.forEach(_cookie => { 
-			var cookie = {}; 
-			cookie['name' ] = _cookie.name;
-			cookie['value'] = _cookie.value; 
-			cookie['url'  ] = 'http' + (_cookie.secure ? 's://' : '://') + (_cookie.domain.charAt(0)=='.' ? _cookie.domain.slice(1) : _cookie.domain) + _cookie.path;
-			cookie['path' ] = _cookie.path; 
-			if (_cookie.domain.charAt(0)=='.'           ) { cookie['domain'        ] = _cookie.domain; }
-			if (_cookie.hasOwnProperty('expirationDate')) { cookie['expirationDate'] = _cookie.expirationDate; }  
-			if (_cookie.hasOwnProperty('httpOnly'      )) { cookie['httpOnly'      ] = _cookie.httpOnly; }  
-			if (_cookie.hasOwnProperty('storeId'       )) { cookie['storeId'       ] = _cookie.storeId; }  
-			if (_cookie.hasOwnProperty('secure'        )) { cookie['secure'        ] = _cookie.secure; }  
+			var cookie = {}; // nine items in cookie
+			cookie['url'           ] = (_cookie.secure ? 'https://' : 'http://') + (_cookie.domain.charAt(0)=='.' ? _cookie.domain.slice(1) : _cookie.domain) + _cookie.path;
+			cookie['domain'        ] = _cookie.domain;
+			cookie['expirationDate'] = _cookie.expirationDate;
+			cookie['httpOnly'      ] = _cookie.httpOnly;
+			cookie['name'          ] = _cookie.name;
+			cookie['path'          ] = _cookie.path;
+			cookie['secure'        ] = _cookie.secure;
+			cookie['storeId'       ] = _cookie.storeId;
+			cookie['value'         ] = _cookie.value;
 			arrCookies.push(cookie);
-		});  
+		});
 		document.getElementById('TextareaCookies').innerHTML = JSON.stringify(arrCookies).replaceAll("},", "},\n");
 		document.getElementById('BtnLoadCookies' ).innerHTML = 'Save<br/>Cookies';
 		document.getElementById('BtnLoadCookies' ).value     = 'save';

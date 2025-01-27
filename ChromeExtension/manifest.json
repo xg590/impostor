@@ -1,6 +1,6 @@
 {
   "name": "Impostor",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Let me impersonate someone else",
   "permissions": ["tabs", "cookies"], 
   "host_permissions": ["<all_urls>"],
