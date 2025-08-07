@@ -2,7 +2,7 @@
   "name": "Impostor",
   "version": "2.1",
   "description": "Let me impersonate someone else",
-  "permissions": ["tabs", "cookies"], 
+  "permissions": ["tabs", "cookies", "downloads"], 
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",

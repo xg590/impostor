@@ -105,15 +105,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 		if (value == 'load') { // default: load cookies from a file to textarea
 			const strCookies = await loadCookies(); // load 
 			applyCookies(strCookies);
+			window.close();
 		} else if (value == 'apply') { // textarea is pasted with cookies so we apply them
 			const strCookies = document.getElementById('TextareaCookies').value;
 			applyCookies(strCookies);
+			window.close();
 		} else if (value == 'save') { // textarea is filled with cookies so we save them
 			const strCookies = document.getElementById('TextareaCookies').value;
 			saveCookies(strCookies);
+			// 延迟关闭窗口，给下载足够时间完成
+			setTimeout(() => window.close(), 1000);
 		} else {
 			console.log('Invalid button value: ', value);
+			window.close();
 		}
-		window.close();
 	};
 });
